@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interest Quiz — Vazhi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --indigo-deep:#101a33;
+    --gold:#e8a33d;
+    --coral:#e2604f;
+    --sage:#7c9b78;
+    --ink:#efe9db;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--indigo-deep);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    min-height:100vh;
+  }
+  h1,h2{font-family:'Fraunces',serif;font-weight:600;}
+  .label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.75rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+  nav{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:1.5rem 6vw;
+    border-bottom:1px solid rgba(232,163,61,0.15);
+  }
+  .logo{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:700;}
+  .logo span{color:var(--gold);}
+  a{color:inherit;text-decoration:none;}
+  .back{font-size:0.9rem;opacity:0.7;}
+  .back:hover{opacity:1;}
+  main{
+    max-width:640px;
+    margin:0 auto;
+    padding:4rem 6vw 6rem;
+  }
+  .progress-track{
+    height:4px;
+    background:rgba(239,233,219,0.1);
+    border-radius:2px;
+    overflow:hidden;
+    margin-bottom:2.5rem;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--gold);
+    width:0%;
+    transition:width .4s ease;
+  }
+  .q-count{font-size:0.85rem;color:#c9c2ae;margin-bottom:1.5rem;}
+  .question{display:none;}
+  .question.active{display:block;animation:fadeIn .4s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+  .question h2{font-size:1.6rem;margin-bottom:1.8rem;line-height:1.3;}
+  .options{display:flex;flex-direction:column;gap:0.8rem;}
+  .option{
+    text-align:left;
+    padding:1.1rem 1.4rem;
+    background:rgba(244,239,228,0.03);
+    border:1px solid rgba(239,233,219,0.15);
+    border-radius:4px;
+    color:var(--ink);
+    font-family:'Work Sans',sans-serif;
+    font-size:1rem;
+    cursor:pointer;
+    transition:border-color .2s, background .2s;
+  }
+  .option:hover{border-color:var(--gold);background:rgba(232,163,61,0.06);}
+  .option.selected{border-color:var(--gold);background:rgba(232,163,61,0.12);}
+  .nav-btns{
+    display:flex;
+    justify-content:space-between;
+    margin-top:2.5rem;
+  }
+  .btn{
+    padding:0.85rem 1.7rem;
+    border-radius:2px;
+    font-size:0.95rem;
+    font-weight:500;
+    border:none;
+    cursor:pointer;
+    font-family:'Work Sans',sans-serif;
+  }
+  .btn-primary{background:var(--gold);color:var(--indigo-deep);}
+  .btn-primary:disabled{opacity:0.35;cursor:not-allowed;}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid rgba(239,233,219,0.3);}
+  .btn-ghost:disabled{opacity:0.25;cursor:not-allowed;}
+  #result{display:none;text-align:center;}
+  #result .label{display:block;margin-bottom:1rem;}
+  #result h2{font-size:2rem;margin-bottom:1rem;}
+  #result p{color:#c9c2ae;margin-bottom:2rem;}
+  .result-tag{
+    display:inline-block;
+    padding:0.5rem 1.2rem;
+    background:rgba(124,155,120,0.15);
+    border:1px solid var(--sage);
+    border-radius:20px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.9rem;
+    color:var(--sage);
+    margin-bottom:2rem;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Vazhi<span>.</span></div>
+  <a href="index.html" class="back">← Back home</a>
+</nav>
+
+<main>
+  <span class="label">Interest Quiz</span>
+  <div class="progress-track" style="margin-top:1rem;">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+  <div class="q-count" id="qCount">Question 1 of 6</div>
+
+  <form id="quizForm">
+    <div class="question active" data-index="0">
+      <h2>Which of these would you rather spend a free afternoon doing?</h2>
+      <div class="options">
+        <button type="button" class="option" data-value="science">Watching a science documentary or fixing a gadget</button>
+        <button type="button" class="option" data-value="arts">Reading, writing, or debating an idea</button>
+        <button type="button" class="option" data-value="commerce">Planning a budget or tracking a business idea</button>
+        <button type="button" class="option" data-value="tech">Building or coding something on a computer</button>
+        <button type="button" class="option" data-value="creative">Drawing, filming, or designing something</button>
+      </div>
+    </div>
+
+    <div class="question" data-index="1">
+      <h2>In a group project, what role do you naturally take?</h2>
+      <div class="options">
+        <button type="button" class="option" data-value="science">The one who investigates and verifies facts</button>
+        <button type="button" class="option" data-value="commerce">The one who manages budget and timelines</button>
+        <button type="button" class="option" data-value="tech">The one who builds the actual solution</button>
+        <button type="button" class="option" data-value="creative">The one who makes it look and feel right</button>
+        <button type="button" class="option" data-value="arts">The one who writes and presents the story</button>
+      </div>
+    </div>
+
+    <div class="question" data-index="2">
+      <h2>Which subject do you actually enjoy studying, not just score well in?</h2>
+      <div class="options">
+        <button type="button" class="option" data-value="science">Physics, Chemistry, or Biology</button>
+        <button type="button" class="option" data-value="commerce">Economics or Accountancy</button>
+        <button type="button" class="option" data-value="tech">Computer Science or Maths</button>
+        <button type="button" class="option" data-value="arts">History, Languages, or Civics</button>
+        <button type="button" class="option" data-value="creative">Art, Music, or Media Studies</button>
+      </div>
+    </div>
+
+    <div class="question" data-index="3">
+      <h2>Pick the work environment that appeals to you most.</h2>
+      <div class="options">
+        <button type="button" class="option" data-value="science">A lab or research facility</button>
+        <button type="button" class="option" data-value="commerce">An office managing people and money</button>
+        <button type="button" class="option" data-value="tech">Building products used by thousands</button>
+        <button type="button" class="option" data-value="creative">A studio where every day looks different</button>
+        <button type="button" class="option" data-value="arts">A place where you write, teach, or advocate</button>
+      </div>
+    </div>
+
+    <div class="question" data-index="4">
+      <h2>What kind of problem excites you more?</h2>
+      <div class="options">
+        <button type="button" class="option" data-value="science">Why something happens the way it does</button>
+        <button type="button" class="option" data-value="tech">How to build something that didn't exist</button>
+        <button type="button" class="option" data-value="commerce">How to make something more profitable or efficient</button>
+        <button type="button" class="option" data-value="creative">How to make something more beautiful or expressive</button>
+        <button type="button" class="option" data-value="arts">How to explain or argue an idea persuasively</button>
+      </div>
+    </div>
+
+    <div class="question" data-index="5">
+      <h2>Five years from now, what would make you proud?</h2>
+      <div class="options">
+        <button type="button" class="option" data-value="science">Discovering or understanding something new</button>
+        <button type="button" class="option" data-value="tech">Having built something people actually use</button>
+        <button type="button" class="option" data-value="commerce">Running or growing something of your own</button>
+        <button type="button" class="option" data-value="creative">Having your work seen and felt by others</button>
+        <button type="button" class="option" data-value="arts">Having changed how people think about something</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="nav-btns">
+    <button type="button" class="btn btn-ghost" id="prevBtn" disabled>Back</button>
+    <button type="button" class="btn btn-primary" id="nextBtn" disabled>Next</button>
+  </div>
+
+  <div id="result">
+    <span class="label">Your result</span>
+    <div class="result-tag" id="resultTag"></div>
+    <h2 id="resultTitle"></h2>
+    <p id="resultDesc"></p>
+    <a href="#" class="btn btn-primary" id="seeCourses">See matching courses</a>
+  </div>
+</main>
+
+<script>
+  const questions = document.querySelectorAll('.question');
+  const total = questions.length;
+  const answers = new Array(total).fill(null);
+  let current = 0;
+
+  const progressFill = document.getElementById('progressFill');
+  const qCount = document.getElementById('qCount');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const quizForm = document.getElementById('quizForm');
+  const result = document.getElementById('result');
+
+  function render(){
+    questions.forEach((q,i)=> q.classList.toggle('active', i===current));
+    progressFill.style.width = ((current)/(total-1))*100 + '%';
+    qCount.textContent = `Question ${current+1} of ${total}`;
+    prevBtn.disabled = current===0;
+    nextBtn.textContent = current===total-1 ? 'See result' : 'Next';
+    nextBtn.disabled = answers[current]===null;
+  }
+
+  questions.forEach((q,i)=>{
+    q.querySelectorAll('.option').forEach(opt=>{
+      opt.addEventListener('click', ()=>{
+        q.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+        opt.classList.add('selected');
+        answers[i] = opt.dataset.value;
+        nextBtn.disabled = false;
+      });
+    });
+  });
+
+  prevBtn.addEventListener('click', ()=>{
+    if(current>0){ current--; render(); }
+  });
+
+  nextBtn.addEventListener('click', ()=>{
+    if(current < total-1){
+      current++;
+      render();
+    } else {
+      showResult();
+    }
+  });
+
+  const profiles = {
+    science: {
+      tag: 'Science & Research',
+      title: 'You think like an investigator.',
+      desc: "You're drawn to understanding how and why things work. Courses in pure sciences, medicine, and research-based fields tend to fit this pattern well."
+    },
+    commerce: {
+      tag: 'Commerce & Business',
+      title: 'You think like a strategist.',
+      desc: "You naturally think in terms of value, planning, and growth. Commerce, finance, and business management fields tend to fit this pattern well."
+    },
+    tech: {
+      tag: 'Technology & Engineering',
+      title: 'You think like a builder.',
+      desc: "You want to make things that work and that people use. Engineering, computer science, and applied tech fields tend to fit this pattern well."
+    },
+    creative: {
+      tag: 'Design & Creative Arts',
+      title: 'You think like a designer.',
+      desc: "You notice how things look, feel, and communicate. Design, media, and creative arts fields tend to fit this pattern well."
+    },
+    arts: {
+      tag: 'Humanities & Liberal Arts',
+      title: 'You think like a storyteller.',
+      desc: "You're drawn to ideas, language, and argument. Humanities, law, journalism, and social sciences tend to fit this pattern well."
+    }
+  };
+
+  function showResult(){
+    const counts = {};
+    answers.forEach(a=> counts[a] = (counts[a]||0)+1);
+    const top = Object.keys(counts).reduce((a,b)=> counts[a]>=counts[b]?a:b);
+    const profile = profiles[top];
+
+    quizForm.style.display='none';
+    document.querySelector('.progress-track').style.display='none';
+    qCount.style.display='none';
+    document.querySelector('.nav-btns').style.display='none';
+
+    document.getElementById('resultTag').textContent = profile.tag;
+    document.getElementById('resultTitle').textContent = profile.title;
+    document.getElementById('resultDesc').textContent = profile.desc;
+    document.getElementById('seeCourses').href = `courses.html?category=${top}`;
+
+    result.style.display='block';
+  }
+
+  render();
+</script>
+
+</body>
+</html>
