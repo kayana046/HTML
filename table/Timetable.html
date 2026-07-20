@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>📅 Timetable</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            padding: 30px 15px;
+        }
+
+        .container {
+            background: rgba(255,255,255,0.07);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 28px;
+            padding: 30px 25px;
+            max-width: 950px;
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            overflow-x: auto;
+        }
+
+        h2 {
+            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+        }
+
+        .sub-title {
+            color: rgba(255,255,255,0.5);
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        thead th {
+            background: rgba(255,255,255,0.10);
+            color: #c4b5fd;
+            padding: 14px 10px;
+            font-size: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(255,255,255,0.08);
+            text-align: center;
+        }
+
+        tbody td {
+            padding: 14px 10px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: 0.2s;
+        }
+
+        tbody tr:hover td {
+            transform: scale(1.01);
+        }
+
+        /* Subject Colors */
+        .se { background: rgba(52, 152, 219, 0.7); }        /* Blue */
+        .cg { background: rgba(46, 204, 113, 0.7); }        /* Green */
+        .vcbd { background: rgba(155, 89, 182, 0.7); }      /* Purple */
+        .wdd { background: rgba(241, 196, 15, 0.7); }       /* Yellow */
+        .devops { background: rgba(231, 76, 60, 0.7); }     /* Red */
+        .cybsec { background: rgba(26, 188, 156, 0.7); }    /* Teal */
+        .wddlab { background: rgba(230, 126, 34, 0.7); }    /* Orange */
+        .empty { background: rgba(255,255,255,0.03); }      /* Empty */
+        .time-slot { background: rgba(255,255,255,0.05); color: #a78bfa; font-weight: 600; }
+
+        /* Badge style for subjects */
+        .badge {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        /* Period / Day column */
+        .day-col {
+            background: rgba(255,255,255,0.06);
+            color: #c4b5fd;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px 22px;
+            margin-top: 28px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255,255,255,0.7);
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .legend-color {
+            width: 18px;
+            height: 18px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container { padding: 18px 12px; }
+            h2 { font-size: 20px; }
+            table { min-width: 550px; }
+            thead th, tbody td { padding: 10px 6px; font-size: 12px; }
+            .badge { font-size: 11px; padding: 4px 10px; }
+            .legend { gap: 10px 16px; }
+            .legend-item { font-size: 11px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>📚 Weekly Timetable</h2>
+    <p class="sub-title">📅 Semester Schedule</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Day / Time</th>
+                <th>1<br><span style="font-weight:400;font-size:11px;color:rgba(255,255,255,0.4);">9:00 – 9:50</span></th>
+                <th>2<br><span style="font-weight:400;font-size:11px;color:rgba(255,255,255,0.4);">9:50 – 10:40</span></th>
+                <th>2.30 – 2.50</th>
+                <th>3<br><span style="font-weight:400;font-size:11px;color:rgba(255,255,255,0.4);">10:40 – 11:30</span></th>
+                <th>4<br><span style="font-weight:400;font-size:11px;color:rgba(255,255,255,0.4);">11:30 – 12:20</span></th>
+                <th>5<br><span style="font-weight:400;font-size:11px;color:rgba(255,255,255,0.4);">12:20 – 1:10</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Row I -->
+            <tr>
+                <td class="day-col">I</td>
+                <td><span class="badge se">SE</span></td>
+                <td><span class="badge cg">CG</span></td>
+                <td class="empty">—</td>
+                <td><span class="badge vcbd">VC/BD</span></td>
+                <td><span class="badge wdd">WDD</span></td>
+                <td class="empty">—</td>
+            </tr>
+            <!-- Row II -->
+            <tr>
+                <td class="day-col">II</td>
+                <td><span class="badge wdd">WDD</span></td>
+                <td><span class="badge se">SE</span></td>
+                <td class="empty">—</td>
+                <td><span class="badge cg">CG</span></td>
+                <td><span class="badge devops">SBS DevOps</span></td>
+                <td><span class="badge se">SE</span></td>
+            </tr>
+            <!-- Row III -->
+            <tr>
+                <td class="day-col">III</td>
+                <td><span class="badge devops">SBS DevOps</span></td>
+                <td class="empty">—</td>
+                <td class="empty">—</td>
+                <td><span class="badge se">SE</span></td>
+                <td><span class="badge vcbd">VC/BD</span></td>
+                <td><span class="badge wdd">WDD</span></td>
+            </tr>
+            <!-- Row IV -->
+            <tr>
+                <td class="day-col">IV</td>
+                <td><span class="badge wdd">WDD</span></td>
+                <td><span class="badge cg">CG</span></td>
+                <td class="empty">—</td>
+                <td><span class="badge vcbd">VC/BD</span></td>
+                <td><span class="badge cybsec">CybSec</span></td>
+                <td class="empty">—</td>
+            </tr>
+            <!-- Row V -->
+            <tr>
+                <td class="day-col">V</td>
+                <td><span class="badge wddlab">WDD Lab</span></td>
+                <td class="empty">—</td>
+                <td class="empty">—</td>
+                <td><span class="badge wddlab">WDD Lab</span></td>
+                <td><span class="badge cg">CG</span></td>
+                <td><span class="badge vcbd">VC/BD</span></td>
+            </tr>
+            <!-- Row VI -->
+            <tr>
+                <td class="day-col">VI</td>
+                <td><span class="badge vcbd">VC/BD</span></td>
+                <td class="empty">—</td>
+                <td class="empty">—</td>
+                <td><span class="badge se">SE</span></td>
+                <td><span class="badge cg">CG</span></td>
+                <td><span class="badge wddlab">WDD Lab</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Legend -->
+    <div class="legend">
+        <div class="legend-item"><span class="legend-color" style="background:#3498db;"></span> SE</div>
+        <div class="legend-item"><span class="legend-color" style="background:#2ecc71;"></span> CG</div>
+        <div class="legend-item"><span class="legend-color" style="background:#9b59b6;"></span> VC/BD</div>
+        <div class="legend-item"><span class="legend-color" style="background:#f1c40f;"></span> WDD</div>
+        <div class="legend-item"><span class="legend-color" style="background:#e74c3c;"></span> SBS DevOps</div>
+        <div class="legend-item"><span class="legend-color" style="background:#1abc9c;"></span> CybSec</div>
+        <div class="legend-item"><span class="legend-color" style="background:#e67e22;"></span> WDD Lab</div>
+        <div class="legend-item"><span class="legend-color" style="background:rgba(255,255,255,0.08);"></span> Free</div>
+    </div>
+</div>
+
+</body>
+</html>
