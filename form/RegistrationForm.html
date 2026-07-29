@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Registration Form</title>
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins','Segoe UI',sans-serif;
+}
+body{
+  background:#1a1a2e;
+  background-image:
+    radial-gradient(circle at 20% 20%, #ff6b6b33, transparent 40%),
+    radial-gradient(circle at 80% 80%, #4ecdc433, transparent 40%),
+    radial-gradient(circle at 80% 20%, #ffe66d33, transparent 40%);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:30px 15px;
+}
+.form-box{
+  width:420px;
+  background:#16213e;
+  padding:35px 30px;
+  border-radius:20px;
+  border:1px solid #2a2a4a;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+  position:relative;
+  overflow:hidden;
+}
+.form-box::before{
+  content:"";
+  position:absolute;
+  top:-60px;
+  right:-60px;
+  width:150px;
+  height:150px;
+  background:linear-gradient(135deg,#ff6b6b,#ffe66d);
+  border-radius:50%;
+  opacity:.15;
+}
+h2{
+  text-align:center;
+  color:#ffffff;
+  font-size:24px;
+  margin-bottom:4px;
+  position:relative;
+}
+.sub{
+  text-align:center;
+  color:#8888aa;
+  font-size:13px;
+  margin-bottom:26px;
+  position:relative;
+}
+label{
+  display:block;
+  font-weight:600;
+  font-size:12px;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+  margin-bottom:6px;
+  color:#4ecdc4;
+  position:relative;
+}
+input,select{
+  width:100%;
+  padding:12px 14px;
+  margin-bottom:18px;
+  border:1px solid #2a2a4a;
+  border-radius:10px;
+  font-size:14px;
+  background:#1f2b4d;
+  color:#ffffff;
+  position:relative;
+}
+input::placeholder{
+  color:#6a6a8a;
+}
+input:focus,select:focus{
+  outline:none;
+  border-color:#ff6b6b;
+  box-shadow:0 0 0 3px rgba(255,107,107,.2);
+}
+select option{
+  background:#1f2b4d;
+}
+button{
+  width:100%;
+  padding:14px;
+  background:linear-gradient(135deg,#ff6b6b,#ff9f6b);
+  color:white;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:700;
+  letter-spacing:0.5px;
+  cursor:pointer;
+  transition:.25s;
+  position:relative;
+}
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 25px rgba(255,107,107,.4);
+}
+.footer-text{
+  text-align:center;
+  color:#6a6a8a;
+  font-size:12px;
+  margin-top:18px;
+  position:relative;
+}
+.footer-text a{
+  color:#4ecdc4;
+  text-decoration:none;
+  font-weight:600;
+}
+</style>
+</head>
+<body>
+
+<div class="form-box">
+  <h2>🚀 Join the Crew</h2>
+  <p class="sub">Create your account to get started</p>
+  <form>
+    <label>Full Name</label>
+    <input type="text" placeholder="John Doe" required>
+
+    <label>Email</label>
+    <input type="email" placeholder="john@example.com" required>
+
+    <label>Phone Number</label>
+    <input type="text" placeholder="+91 98765 43210" required>
+
+    <label>Password</label>
+    <input type="password" placeholder="••••••••" required>
+
+    <label>Gender</label>
+    <select>
+      <option>Male</option>
+      <option>Female</option>
+      <option>Other</option>
+    </select>
+
+    <button type="submit">Create Account →</button>
+  </form>
+  <p class="footer-text">Already a member? <a href="#">Sign in</a></p>
+</div>
+
+</body>
+</html>
