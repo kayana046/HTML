@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Internship Application — CodeSprint Labs</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 48px 20px;
+    min-height: 100vh;
+    background: #f1f5f9;
+    display: flex;
+    justify-content: center;
+  }
+  .form-container {
+    background: #ffffff;
+    width: 760px;
+    max-width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 30px rgba(15,23,42,0.08);
+  }
+  .form-header {
+    background: #eef2ff;
+    padding: 30px 40px 24px;
+    color: #312e81;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .form-header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+  .form-header p {
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: #4c4a8f;
+  }
+  .form-body {
+    padding: 32px 40px 40px;
+  }
+  .section-title {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    color: #4f46e5;
+    margin: 28px 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title:first-child { margin-top: 0; }
+  .section-title::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4f46e5;
+  }
+  .row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 18px;
+  }
+  .field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 6px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  input[type="number"],
+  select,
+  textarea {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 13px;
+    font-size: 14px;
+    font-family: inherit;
+    background: #fbfcfe;
+    color: #0f172a;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #6366f1;
+    background: #fff;
+  }
+  textarea {
+    resize: vertical;
+    min-height: 70px;
+  }
+  input.invalid,
+  select.invalid,
+  textarea.invalid {
+    border-color: #e11d48;
+    background: #fef2f4;
+  }
+  .error-text {
+    color: #e11d48;
+    font-size: 12px;
+    margin-top: 5px;
+    min-height: 14px;
+  }
+  .otp-row {
+    display: flex;
+    gap: 8px;
+  }
+  .otp-row input {
+    flex: 1;
+  }
+  .otp-row button {
+    padding: 0 16px;
+    font-size: 12px;
+    font-weight: 600;
+    border: none;
+    background: #4f46e5;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s ease;
+  }
+  .otp-row button:hover {
+    background: #4338ca;
+  }
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip-row input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .chip-row label {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 15px;
+    border-radius: 999px;
+    border: 1px solid #e2e8f0;
+    background: #fbfcfe;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 0;
+    transition: all 0.15s ease;
+  }
+  .chip-row input:checked + span,
+  .chip-row label:has(input:checked) {
+    background: #4f46e5;
+    border-color: #4f46e5;
+    color: #fff;
+  }
+  .field-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .inline-field {
+    margin-bottom: 20px;
+  }
+  .file-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  input[type="file"] {
+    border: 1.5px dashed #cbd5e1;
+    border-radius: 10px;
+    padding: 12px 14px;
+    background: #f8fafc;
+    font-size: 13px;
+    width: 100%;
+  }
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 32px;
+  }
+  .actions button {
+    padding: 12px 36px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 0.12s ease, opacity 0.15s ease;
+  }
+  .actions button:active {
+    transform: scale(0.97);
+  }
+  #submitBtn {
+    background: #4f46e5;
+    color: #fff;
+    border: none;
+  }
+  #resetBtn {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+  }
+  .success-banner {
+    display: none;
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    color: #15803d;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="form-container">
+  <div class="form-header">
+    <h1>CodeSprint Labs — Internship Application</h1>
+    <p>Apply for our 3-month internship program. Takes about 5 minutes.</p>
+  </div>
+
+  <div class="form-body">
+
+  <div class="success-banner" id="successBanner">Application submitted successfully!</div>
+
+  <form id="appForm" novalidate>
+
+    <div class="section-title">Personal details</div>
+
+    <div class="row">
+      <div class="field">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName">
+        <p class="error-text" id="err-firstName"></p>
+      </div>
+      <div class="field">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName">
+        <p class="error-text" id="err-lastName"></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob">
+        <p class="error-text" id="err-dob"></p>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email">
+        <p class="error-text" id="err-email"></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="contact">Contact Number</label>
+        <input type="tel" id="contact" maxlength="10" placeholder="10 digit number">
+        <p class="error-text" id="err-contact"></p>
+      </div>
+      <div class="field">
+        <label for="otp">OTP</label>
+        <div class="otp-row">
+          <input type="text" id="otp" maxlength="6" placeholder="Enter OTP">
+          <button type="button" id="sendOtpBtn">Send OTP</button>
+        </div>
+        <p class="error-text" id="err-otp"></p>
+      </div>
+    </div>
+
+    <div class="section-title">Address</div>
+
+    <div class="row">
+      <div class="field full">
+        <label for="address">Address</label>
+        <textarea id="address"></textarea>
+        <p class="error-text" id="err-address"></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="city">City</label>
+        <input type="text" id="city">
+        <p class="error-text" id="err-city"></p>
+      </div>
+      <div class="field">
+        <label for="pincode">Pincode</label>
+        <input type="text" id="pincode" maxlength="6" placeholder="6 digit pincode">
+        <p class="error-text" id="err-pincode"></p>
+      </div>
+    </div>
+
+    <div class="inline-field">
+      <span class="field-label">Gender</span>
+      <div class="chip-row">
+        <label><input type="radio" name="gender" value="Male"><span>Male</span></label>
+        <label><input type="radio" name="gender" value="Female"><span>Female</span></label>
+        <label><input type="radio" name="gender" value="Other"><span>Other</span></label>
+      </div>
+      <p class="error-text" id="err-gender"></p>
+    </div>
+
+    <div class="section-title">Professional details</div>
+
+    <div class="inline-field">
+      <span class="field-label">Programming languages</span>
+      <div class="chip-row">
+        <label><input type="checkbox" name="lang" value="Python"><span>Python</span></label>
+        <label><input type="checkbox" name="lang" value="Java"><span>Java</span></label>
+        <label><input type="checkbox" name="lang" value="JavaScript"><span>JavaScript</span></label>
+        <label><input type="checkbox" name="lang" value="C#"><span>C#</span></label>
+        <label><input type="checkbox" name="lang" value="Kotlin"><span>Kotlin</span></label>
+        <label><input type="checkbox" name="lang" value="Ruby"><span>Ruby</span></label>
+      </div>
+      <p class="error-text" id="err-lang"></p>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="position">Internship track</label>
+        <select id="position">
+          <option value="">Select a track</option>
+          <option>Software Development</option>
+          <option>Data Science</option>
+          <option>UI/UX Design</option>
+          <option>QA & Testing</option>
+          <option>Product Management</option>
+        </select>
+        <p class="error-text" id="err-position"></p>
+      </div>
+      <div class="field">
+        <label for="duration">Preferred start date</label>
+        <input type="date" id="duration">
+        <p class="error-text" id="err-duration"></p>
+      </div>
+    </div>
+
+    <div class="inline-field">
+      <span class="field-label">Educational qualification</span>
+      <div class="chip-row">
+        <label><input type="radio" name="edu" value="B.E"><span>B.E</span></label>
+        <label><input type="radio" name="edu" value="B.Tech"><span>B.Tech</span></label>
+        <label><input type="radio" name="edu" value="B.Sc"><span>B.Sc</span></label>
+        <label><input type="radio" name="edu" value="M.Sc"><span>M.Sc</span></label>
+        <label><input type="radio" name="edu" value="MCA"><span>MCA</span></label>
+        <label><input type="radio" name="edu" value="M.E"><span>M.E</span></label>
+      </div>
+      <p class="error-text" id="err-edu"></p>
+    </div>
+
+    <div class="inline-field">
+      <label class="field-label" for="resume">Upload resume</label>
+      <div class="file-row">
+        <input type="file" id="resume" accept=".pdf,.doc,.docx">
+      </div>
+      <p class="error-text" id="err-resume"></p>
+    </div>
+
+    <div class="actions">
+      <button type="submit" id="submitBtn">Submit application</button>
+      <button type="reset" id="resetBtn">Reset</button>
+    </div>
+
+  </form>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById('appForm');
+  const successBanner = document.getElementById('successBanner');
+
+  function setError(fieldId, message) {
+    const errEl = document.getElementById('err-' + fieldId);
+    if (errEl) errEl.textContent = message;
+  }
+
+  function markInvalid(el, invalid) {
+    if (!el) return;
+    el.classList.toggle('invalid', invalid);
+  }
+
+  function validate() {
+    let isValid = true;
+
+    // First name
+    const firstName = document.getElementById('firstName');
+    if (!firstName.value.trim()) {
+      setError('firstName', 'First name is required.');
+      markInvalid(firstName, true);
+      isValid = false;
+    } else {
+      setError('firstName', '');
+      markInvalid(firstName, false);
+    }
+
+    // Last name
+    const lastName = document.getElementById('lastName');
+    if (!lastName.value.trim()) {
+      setError('lastName', 'Last name is required.');
+      markInvalid(lastName, true);
+      isValid = false;
+    } else {
+      setError('lastName', '');
+      markInvalid(lastName, false);
+    }
+
+    // Date of birth
+    const dob = document.getElementById('dob');
+    if (!dob.value) {
+      setError('dob', 'Date of birth is required.');
+      markInvalid(dob, true);
+      isValid = false;
+    } else {
+      const age = (new Date() - new Date(dob.value)) / (365.25 * 24 * 60 * 60 * 1000);
+      if (age < 18) {
+        setError('dob', 'You must be at least 18 years old.');
+        markInvalid(dob, true);
+        isValid = false;
+      } else {
+        setError('dob', '');
+        markInvalid(dob, false);
+      }
+    }
+
+    // Email
+    const email = document.getElementById('email');
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.value.trim()) {
+      setError('email', 'Email is required.');
+      markInvalid(email, true);
+      isValid = false;
+    } else if (!emailPattern.test(email.value.trim())) {
+      setError('email', 'Enter a valid email address.');
+      markInvalid(email, true);
+      isValid = false;
+    } else {
+      setError('email', '');
+      markInvalid(email, false);
+    }
+
+    // Contact number
+    const contact = document.getElementById('contact');
+    if (!/^\d{10}$/.test(contact.value.trim())) {
+      setError('contact', 'Enter a valid 10 digit contact number.');
+      markInvalid(contact, true);
+      isValid = false;
+    } else {
+      setError('contact', '');
+      markInvalid(contact, false);
+    }
+
+    // OTP
+    const otp = document.getElementById('otp');
+    if (!/^\d{4,6}$/.test(otp.value.trim())) {
+      setError('otp', 'Enter the OTP sent to your number.');
+      markInvalid(otp, true);
+      isValid = false;
+    } else {
+      setError('otp', '');
+      markInvalid(otp, false);
+    }
+
+    // Address
+    const address = document.getElementById('address');
+    if (!address.value.trim()) {
+      setError('address', 'Address is required.');
+      markInvalid(address, true);
+      isValid = false;
+    } else {
+      setError('address', '');
+      markInvalid(address, false);
+    }
+
+    // City
+    const city = document.getElementById('city');
+    if (!city.value.trim()) {
+      setError('city', 'City is required.');
+      markInvalid(city, true);
+      isValid = false;
+    } else {
+      setError('city', '');
+      markInvalid(city, false);
+    }
+
+    // Pincode
+    const pincode = document.getElementById('pincode');
+    if (!/^\d{6}$/.test(pincode.value.trim())) {
+      setError('pincode', 'Enter a valid 6 digit pincode.');
+      markInvalid(pincode, true);
+      isValid = false;
+    } else {
+      setError('pincode', '');
+      markInvalid(pincode, false);
+    }
+
+    // Gender
+    if (!document.querySelector('input[name="gender"]:checked')) {
+      setError('gender', 'Please select a gender.');
+      isValid = false;
+    } else {
+      setError('gender', '');
+    }
+
+    // Programming languages
+    if (!document.querySelector('input[name="lang"]:checked')) {
+      setError('lang', 'Select at least one language.');
+      isValid = false;
+    } else {
+      setError('lang', '');
+    }
+
+    // Position
+    const position = document.getElementById('position');
+    if (!position.value) {
+      setError('position', 'Please select a track.');
+      markInvalid(position, true);
+      isValid = false;
+    } else {
+      setError('position', '');
+      markInvalid(position, false);
+    }
+
+    // Preferred start date
+    const duration = document.getElementById('duration');
+    if (!duration.value) {
+      setError('duration', 'Please select a start date.');
+      markInvalid(duration, true);
+      isValid = false;
+    } else if (new Date(duration.value) < new Date(new Date().toDateString())) {
+      setError('duration', 'Start date cannot be in the past.');
+      markInvalid(duration, true);
+      isValid = false;
+    } else {
+      setError('duration', '');
+      markInvalid(duration, false);
+    }
+
+    // Education
+    if (!document.querySelector('input[name="edu"]:checked')) {
+      setError('edu', 'Please select your qualification.');
+      isValid = false;
+    } else {
+      setError('edu', '');
+    }
+
+    // Resume
+    const resume = document.getElementById('resume');
+    if (!resume.files.length) {
+      setError('resume', 'Please upload your resume.');
+      isValid = false;
+    } else {
+      setError('resume', '');
+    }
+
+    return isValid;
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    successBanner.style.display = 'none';
+    if (validate()) {
+      successBanner.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+
+  form.addEventListener('reset', () => {
+    document.querySelectorAll('.error-text').forEach(el => el.textContent = '');
+    document.querySelectorAll('.invalid').forEach(el => el.classList.remove('invalid'));
+    successBanner.style.display = 'none';
+  });
+
+  document.getElementById('sendOtpBtn').addEventListener('click', () => {
+    const contact = document.getElementById('contact');
+    if (!/^\d{10}$/.test(contact.value.trim())) {
+      setError('contact', 'Enter a valid 10 digit contact number before sending OTP.');
+      markInvalid(contact, true);
+      return;
+    }
+    setError('contact', '');
+    markInvalid(contact, false);
+    alert('OTP sent to ' + contact.value.trim());
+  });
+</script>
+
+</body>
+</html>
