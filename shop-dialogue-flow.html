@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bella Boutique — Dress Shop</title>
+<style>
+  body {
+    font-family: 'Georgia', serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    gap: 24px;
+    background: linear-gradient(135deg, #f8d7e3 0%, #f4b6c2 45%, #d88fa3 100%);
+    background-attachment: fixed;
+  }
+  .brand {
+    text-align: center;
+    color: #6b2737;
+  }
+  .brand h1 {
+    margin: 0;
+    font-size: 42px;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 3px rgba(255,255,255,0.5);
+  }
+  .brand p {
+    margin: 6px 0 0;
+    font-size: 15px;
+    font-style: italic;
+    letter-spacing: 1px;
+    color: #7d3b4a;
+  }
+  .shop-select {
+    display: flex;
+    gap: 12px;
+  }
+  button.trigger {
+    padding: 14px 28px;
+    font-size: 16px;
+    font-family: 'Georgia', serif;
+    cursor: pointer;
+    border-radius: 30px;
+    border: none;
+    background: #6b2737;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(107,39,55,0.4);
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  button.trigger:hover {
+    background: #86324a;
+    transform: translateY(-2px);
+  }
+  dialog {
+    border: none;
+    border-radius: 14px;
+    padding: 26px;
+    width: 320px;
+    font-family: 'Georgia', serif;
+    background: #fff8f9;
+    box-shadow: 0 8px 28px rgba(107,39,55,0.35);
+  }
+  dialog::backdrop {
+    background: rgba(107,39,55,0.45);
+  }
+  dialog h2 {
+    margin-top: 0;
+    font-size: 19px;
+    color: #6b2737;
+  }
+  dialog p {
+    color: #5a4147;
+  }
+  dialog .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  dialog button {
+    padding: 6px 14px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  dialog input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 9px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-family: 'Georgia', serif;
+    border: 1px solid #e3aebb;
+    border-radius: 8px;
+  }
+  dialog button {
+    border-radius: 20px;
+    border: 1px solid #d9a5b3;
+    background: #fff;
+    color: #6b2737;
+  }
+  .primary {
+    background: #6b2737;
+    color: white;
+    border: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="brand">
+  <h1>Bella Boutique</h1>
+  <p>Timeless dresses, made for every moment</p>
+</div>
+
+<div class="shop-select">
+  <button class="trigger" id="dressBtn">🧥 Order Dress</button>
+</div>
+
+<!-- Alert Dialog -->
+<dialog id="alertDialog">
+  <h2 id="alertTitle">Item Added</h2>
+  <p id="alertText"></p>
+  <div class="actions">
+    <button class="primary" id="alertOk">OK</button>
+  </div>
+</dialog>
+
+<!-- Prompt Dialog -->
+<dialog id="promptDialog">
+  <h2 id="promptTitle">Customize</h2>
+  <p id="promptText"></p>
+  <input type="text" id="promptInput" placeholder="Type here...">
+  <div class="actions">
+    <button id="promptCancel">Cancel</button>
+    <button class="primary" id="promptSubmit">Next</button>
+  </div>
+</dialog>
+
+<!-- Confirmation Dialog -->
+<dialog id="confirmDialog">
+  <h2 id="confirmTitle">Confirm Order</h2>
+  <p id="confirmText"></p>
+  <div class="actions">
+    <button id="confirmCancel">Cancel</button>
+    <button class="primary" id="confirmYes">Place Order</button>
+  </div>
+</dialog>
+
+<script>
+  const alertDialog = document.getElementById('alertDialog');
+  const promptDialog = document.getElementById('promptDialog');
+  const confirmDialog = document.getElementById('confirmDialog');
+  const promptInput = document.getElementById('promptInput');
+
+  const shops = {
+    dress: {
+      alert: "A red evening dress has been added to your cart.",
+      promptLabel: "What size do you need? (S / M / L / XL)",
+      placeholder: "e.g. M",
+      confirmTemplate: (val) => `Confirm order: 1 x Red Evening Dress, size ${val}. Proceed to checkout?`
+    }
+  };
+
+  let currentShop = null;
+
+  function startFlow(shopKey) {
+    currentShop = shops[shopKey];
+    document.getElementById('alertText').textContent = currentShop.alert;
+    alertDialog.showModal();
+  }
+
+  document.getElementById('dressBtn').addEventListener('click', () => startFlow('dress'));
+
+  // Step 2: Alert OK -> show Prompt
+  document.getElementById('alertOk').addEventListener('click', () => {
+    alertDialog.close();
+    document.getElementById('promptText').textContent = currentShop.promptLabel;
+    promptInput.placeholder = currentShop.placeholder;
+    promptInput.value = '';
+    promptDialog.showModal();
+  });
+
+  // Step 3: Prompt Next -> show Confirmation
+  document.getElementById('promptSubmit').addEventListener('click', () => {
+    const value = promptInput.value || currentShop.placeholder;
+    promptDialog.close();
+    document.getElementById('confirmText').textContent = currentShop.confirmTemplate(value);
+    confirmDialog.showModal();
+  });
+  document.getElementById('promptCancel').addEventListener('click', () => {
+    promptDialog.close();
+  });
+
+  // Step 4: Confirmation actions
+  document.getElementById('confirmCancel').addEventListener('click', () => {
+    confirmDialog.close();
+  });
+  document.getElementById('confirmYes').addEventListener('click', () => {
+    confirmDialog.close();
+    alert('Order placed successfully!');
+  });
+</script>
+
+</body>
+</html>
